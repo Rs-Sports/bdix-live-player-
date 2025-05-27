@@ -1,71 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Bdix Live TV Player</title>
-  <style>
-    body {
-      margin: 0;
-      background: #000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      color: white;
-      font-family: Arial, sans-serif;
-      flex-direction: column;
-    }
-    video {
-      width: 90%;
-      max-width: 720px;
-      border: 3px solid #00ff00;
-      border-radius: 12px;
-      box-shadow: 0 0 20px #00ff00;
-      background: black;
-    }
-    .note {
-      margin-top: 20px;
-      font-size: 14px;
-      color: #ccc;
-      max-width: 720px;
-      text-align: center;
-    }
-  </style>
-</head>
-<body>
-  <video id="video" controls autoplay muted playsinline></video>
-  <div class="note">
-    * আপনার Bdix নেটওয়ার্কে থাকতে হবে এবং URL সঠিকভাবে কাজ করতে হবে।<br>
-    * যদি ভিডিও না চলে, তাহলে CORS সমস্যা বা URL এক্সপায়ার্ড হতে পারে।
-  </div>
-
+  <meta charset="utf-8">
+  <title>Live Stream Player</title>
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-  <script>
-    const video = document.getElementById('video');
+</head>
+<body style="margin:0; background:#000; display:flex; justify-content:center; align-items:center; height:100vh;">
 
-    // এখানে আপনার Bdix m3u8 URL দিন
-    const videoSrc = 'https://cdn.bdixtv.live/hls/gtv.m3u8';
+  <video id="video" controls autoplay style="width:90%; max-width:800px; border:3px solid green; border-radius:10px;"></video>
+
+  <script>
+    var video = document.getElementById('video');
+    var videoSrc = 'https://m3.merichunidya.com:999/hls/star1in.m3u8?md5=3TmcYsZW-j1w054Y02GP3A&expires=1748339393';
 
     if (Hls.isSupported()) {
-      const hls = new Hls();
+      var hls = new Hls();
       hls.loadSource(videoSrc);
       hls.attachMedia(video);
-      hls.on(Hls.Events.MANIFEST_PARSED, () => {
+      hls.on(Hls.Events.MANIFEST_PARSED, function () {
         video.play();
-      });
-      hls.on(Hls.Events.ERROR, function(event, data) {
-        console.error('HLS.js error:', data);
-        alert('ভিডিও লোড করতে সমস্যা হচ্ছে। হয়তো CORS বা লিংক সমস্যা।');
       });
     } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
       video.src = videoSrc;
-      video.addEventListener('loadedmetadata', () => {
+      video.addEventListener('loadedmetadata', function () {
         video.play();
       });
-    } else {
-      alert('আপনার ব্রাউজার HLS ভিডিও সাপোর্ট করে না।');
     }
   </script>
+
 </body>
 </html>
